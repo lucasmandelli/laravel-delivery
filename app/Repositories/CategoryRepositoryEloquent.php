@@ -1,0 +1,37 @@
+<?php
+
+namespace LaravelDelivery\Repositories;
+
+use Prettus\Repository\Eloquent\BaseRepository;
+use Prettus\Repository\Criteria\RequestCriteria;
+use LaravelDelivery\Repositories\CategoryRepository;
+use LaravelDelivery\Models\Category;
+use LaravelDelivery\Validators\CategoryValidator;
+
+/**
+ * Class CategoryRepositoryEloquent
+ * @package namespace LaravelDelivery\Repositories;
+ */
+class CategoryRepositoryEloquent extends BaseRepository implements CategoryRepository
+{
+    /**
+     * Specify Model class name
+     *
+     * @return string
+     */
+    public function model()
+    {
+        return Category::class;
+    }
+
+    
+
+    /**
+     * Boot up the repository, pushing criteria
+     */
+    public function boot()
+    {
+        $this->pushCriteria(app(RequestCriteria::class));
+    }
+
+}

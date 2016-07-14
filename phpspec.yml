@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: LaravelDelivery
+        psr4_prefix: LaravelDelivery
+        src_path: app
