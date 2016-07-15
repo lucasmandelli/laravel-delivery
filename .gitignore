@@ -1,6 +1,6 @@
 Homestead.yaml
 Homestead.json
-/.idea
+.idea
+vendor
 .env
-.env.example
 .gitattributes
