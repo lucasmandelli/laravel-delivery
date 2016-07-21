@@ -43,5 +43,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'LaravelDelivery\Repositories\UserRepository',
             'LaravelDelivery\Repositories\UserRepositoryEloquent'
         );
+
+        $this->app->bind(
+            'LaravelDelivery\Repositories\CupomRepository',
+            'LaravelDelivery\Repositories\CupomRepositoryEloquent'
+        );
     }
 }
