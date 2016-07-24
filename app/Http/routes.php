@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('home', ['middleware' => 'auth.checkrole', function() {
+Route::get('home', ['middleware' => 'auth.checkrole:', function() {
     return view('home');
 }]);
 
@@ -60,4 +60,18 @@ Route::group(['prefix' => 'customer', 'middleware' => 'auth.checkrole:client', '
     Route::get('order/create', ['as' => 'orders.create', 'uses' => 'CheckoutController@create']);
     Route::post('order/store', ['as' => 'orders.store', 'uses' => 'CheckoutController@store']);
 
+});
+
+Route::post('oauth/access_token', function() {
+    return Response::json(Authorizer::issueAccessToken());
+});
+
+Route::group(['prefix' => 'api', 'middleware' => 'oauth', 'as' => 'api.'], function(){
+    Route::get('teste', function() {
+        return [
+            'data' => date('d-m-Y'),
+            'hora' => date('H:i:s'),
+            'msg' => 'Teste acesso API'
+        ];
+    });
 });
