@@ -11,6 +11,8 @@
 |
 */
 
+use LaravelDelivery\Repositories\UserRepository;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -67,11 +69,30 @@ Route::post('oauth/access_token', function() {
 });
 
 Route::group(['prefix' => 'api', 'middleware' => 'oauth', 'as' => 'api.'], function(){
-    Route::get('teste', function() {
-        return [
-            'data' => date('d-m-Y'),
-            'hora' => date('H:i:s'),
-            'msg' => 'Teste acesso API'
-        ];
+
+    Route::group(['prefix' => 'client', 'middleware' => 'oauth.checkrole:client', 'as' => 'client.'], function(){
+
+        Route::resource('order', 'Api\Client\ClientCheckoutController',
+            ['except' => ['create', 'edit', 'destroy']
+        ]);
+
     });
+
+    Route::group(['prefix' => 'deliveryman', 'middleware' => 'oauth.checkrole:deliveryman', 'as' => 'deliveryman.'], function(){
+        Route::get('teste', function() {
+            return [
+                'data' => date('d-m-Y'),
+                'hora' => date('H:i:s'),
+                'msg' => 'Teste acesso API - Deliveryman'
+            ];
+        });
+    });
+
+    Route::get('authenticated', function(UserRepository $userRepository){
+        $user_id = Authorizer::getResourceOwnerId();
+        $user = $userRepository->find($user_id);
+
+        return $user;
+    });
+
 });
